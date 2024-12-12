@@ -1,0 +1,20 @@
+<div class="layout">
+  <header>
+    <app-navbar></app-navbar>
+  </header>
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+
+  <app-footer></app-footer>
+</div>
+
+@if(isLoading){
+
+<ng-container>
+  <div class="spinner">
+    <mat-spinner [diameter]="30"></mat-spinner>
+  </div>
+</ng-container>
+}
