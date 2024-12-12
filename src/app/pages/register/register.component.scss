@@ -1,0 +1,12 @@
+.register-form-container {
+  margin: 24px;
+}
+
+.register-card {
+  .mat-mdc-card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
