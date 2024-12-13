@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from '../../features/footer/footer.component';
 import { NavbarComponent } from '../../features/navbar/navbar.component';
+import { LoadingService } from '../../shared/services/loading.service';
 
 @Component({
   selector: 'app-layout',
@@ -17,5 +18,7 @@ import { NavbarComponent } from '../../features/navbar/navbar.component';
   styleUrl: './layout.component.scss',
 })
 export class LayoutComponent {
-  isLoading: boolean = false;
+  private loadingService = inject(LoadingService);
+
+  isLoading = computed(() => this.loadingService.isLoading());
 }

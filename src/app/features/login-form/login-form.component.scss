@@ -5,3 +5,29 @@ form {
   max-width: 100%;
   margin: 24px 0;
 }
+
+.bottom-section {
+  margin-top: 24px;
+  text-align: center;
+
+  .forgot-password {
+    display: block;
+    text-decoration: none;
+    margin-bottom: 8px;
+
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+}
+
+.error-container {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+
+  p {
+    color: red;
+  }
+}
