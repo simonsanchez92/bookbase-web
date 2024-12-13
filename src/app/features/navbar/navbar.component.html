@@ -1,18 +1,50 @@
 <mat-toolbar color="primary" class="toolbar">
-  <div class="toolbar-left" (click)="navigate('menu')">
+  <div class="toolbar-logo" (click)="navigate('menu')">
     <span class="app-name">Bookbase</span>
     <mat-icon>menu_book</mat-icon>
   </div>
 
-  @if(true){
+  <span class="toolbar-links">
+    <a mat-button routerLink="/">Home</a>
+    <a mat-button routerLink="forgotten-password">My Books</a>
+  </span>
+
+  <!-- spacer -->
+  <span class="spacer"></span>
+
+  <!-- Search input -->
+  <mat-form-field class="search-field" appearance="outline">
+    <mat-label>Search books</mat-label>
+    <input matInput />
+
+    <button mat-icon-button matSuffix>
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <!-- Icons -->
+  <div class="toolbar-icons">
+    <button mat-icon-button>
+      <mat-icon>notifications</mat-icon>
+      <span class="notification-badge">2</span>
+    </button>
+    <button mat-icon-button>
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <button mat-icon-button>
+      <mat-icon>book</mat-icon>
+    </button>
+  </div>
+
+  @if(false){
   <div class="toolbar-right">
     <div class="menu-items">
-      <button mat-button (click)="navigate('menu')">Menu</button>
-      <button mat-button (click)="navigate('search')">Search</button>
-
+      <button mat-button (click)="navigate('menu')">Home</button>
+      <button mat-button (click)="navigate('search')">My Books</button>
+      <!-- 
       <button class="logout-btn" mat-button (click)="logout()">
         Logout <mat-icon>logout</mat-icon>
-      </button>
+      </button> -->
     </div>
   </div>
   <div class="dropdown-menu">

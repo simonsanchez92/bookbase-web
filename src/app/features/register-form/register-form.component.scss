@@ -6,6 +6,16 @@ form {
   margin: 24px 0;
 }
 
+.error-container {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+
+  p {
+    color: red;
+  }
+}
+
 .bottom-section {
   // border: 1px solid red;
   margin-top: 16px;

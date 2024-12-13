@@ -1,23 +1,81 @@
 .toolbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid rgb(46, 44, 44);
+  justify-content: center;
+  padding: 8px 16px;
 
-  .toolbar-left {
+  // border-bottom: 1px solid rgb(46, 44, 44);
+  // border: 2px solid red;
+
+  .toolbar-logo {
+    border: 1px solid blue;
+    height: 40px;
     display: flex;
     align-items: center;
 
     &:hover {
       cursor: pointer;
     }
+    .app-name {
+      margin-right: 8px;
+      font-style: italic;
+      font-size: 1.5rem;
+    }
   }
 
-  .app-name {
-    margin-right: 8px;
-    font-style: italic;
-    font-size: 1.5rem;
+  .toolbar-links {
+    border: 1px solid blue;
   }
+  .toolbar-links a {
+    font-size: 16px;
+    text-decoration: none;
+  }
+
+  .spacer {
+    flex: 1;
+  }
+
+  .search-field {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    width: 300px;
+    height: 36px;
+    margin-right: 16px;
+    border: 2px solid blue;
+
+    .mat-mdc-form-field-infix {
+      border: 2px solid red !important;
+    }
+    input {
+    }
+  }
+
+  .toolbar-icons {
+    border: 1px solid blue;
+
+    display: flex;
+    align-items: center;
+
+    button {
+      position: relative;
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: red;
+      color: white;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 50%;
+    }
+  }
+}
+
+.mat-mdc-form-field {
+  border: 2px solid black;
 }
 
 .toolbar-right {

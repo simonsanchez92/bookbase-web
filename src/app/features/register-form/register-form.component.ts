@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -10,7 +10,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
+import { SignInRequest } from '../../shared/interfaces/signin-request.interface';
+import { AuthService } from '../../shared/services/auth.service';
+import { LoadingService } from '../../shared/services/loading.service';
+import { UserService } from '../../shared/services/user.service';
 
 @Component({
   selector: 'app-register-form',
@@ -27,8 +32,13 @@ import { RouterLink } from '@angular/router';
   templateUrl: './register-form.component.html',
   styleUrl: './register-form.component.scss',
 })
-export class RegisterFormComponent implements OnInit {
+export class RegisterFormComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+  private loadingService = inject(LoadingService);
+  private userService = inject(UserService);
+  private authService = inject(AuthService);
   private fb = inject(FormBuilder);
+  private router = inject(Router);
 
   form!: FormGroup;
 
@@ -41,7 +51,47 @@ export class RegisterFormComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   onSubmit(form: FormGroup) {
-    console.log(form);
+    if (form.valid) {
+      this.loadingService.startLoading();
+
+      const payload: SignInRequest = {
+        username: form.get('username')?.value,
+        email: form.get('email')?.value,
+        password: form.get('password')?.value,
+      };
+
+      this.userService
+        .signIn(payload)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (res) => {
+            this.loadingService.stopLoading();
+            console.log(res);
+
+            this.authService
+              .login({
+                email: payload.email,
+                password: payload.password,
+              })
+              .subscribe({
+                next: (res) => {
+                  localStorage.setItem('bookbase-token', res.token);
+                  this.router.navigate(['/']);
+                },
+              });
+          },
+          error: (err) => {
+            console.log(err);
+            this.loadingService.stopLoading();
+          },
+          complete: () => {},
+        });
+    }
   }
 }

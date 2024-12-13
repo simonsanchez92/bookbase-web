@@ -12,7 +12,7 @@ export class AuthService {
   private router = inject(Router);
   private httpClient: HttpClient = inject(HttpClient);
   // private _isLoggedIn = signal<boolean>(false);
-  private tokenKey = 'bookbase-login-token';
+  private tokenKey = 'bookbase-token';
 
   private isLoggedInSubject = new BehaviorSubject<boolean>(
     this.checkLoggedIn()

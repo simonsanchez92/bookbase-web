@@ -66,7 +66,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (res) => {
             localStorage.setItem('bookbase-token', res.token);
-            this.router.navigate(['/register']);
+            console.log(res);
+            this.router.navigate(['/']);
           },
           error: (err) => {
             this.loadingService.stopLoading();
