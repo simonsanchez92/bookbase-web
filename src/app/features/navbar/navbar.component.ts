@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { Router, RouterLink } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,18 +19,26 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
+    RouterLink,
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent {
-  isLoggedIn: boolean = false;
+  private router = inject(Router);
+  private authService = inject(AuthService);
+
+  isLoggedIn$: Observable<boolean> = this.authService.isLoggedIn$;
 
   logout() {
-    console.log('Log out works!');
+    console.log('Logging out...');
+    localStorage.removeItem('bookbase-token');
+    this.authService['isLoggedInSubject'].next(false); //Updates logged-in state
+
+    this.router.navigate(['/login']);
   }
 
   navigate(path: string) {
-    console.log('Navigate works');
+    this.router.navigate([path]);
   }
 }

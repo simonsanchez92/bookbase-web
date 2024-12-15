@@ -6,7 +6,7 @@
 
   <span class="toolbar-links">
     <a mat-button routerLink="/">Home</a>
-    <a mat-button routerLink="forgotten-password">My Books</a>
+    <a mat-button routerLink="my-books">My Books</a>
   </span>
 
   <!-- spacer -->
@@ -28,9 +28,28 @@
       <mat-icon>notifications</mat-icon>
       <span class="notification-badge">2</span>
     </button>
-    <button mat-icon-button>
+    <button mat-icon-button [matMenuTriggerFor]="profileMenu">
       <mat-icon>account_circle</mat-icon>
     </button>
+
+    <mat-menu #profileMenu="matMenu" class="mat-profile-menu">
+      <div class="profile-header">
+        <span class="profile-name">SIMON SANCHEZ</span>
+      </div>
+      <button mat-menu-item (click)="navigate('/user/show')">
+        <span>Profile</span>
+      </button>
+      <button mat-menu-item>
+        <span>Friends</span>
+      </button>
+      <button mat-menu-item>
+        <span>Account settings</span>
+      </button>
+      <button mat-menu-item (click)="logout()">
+        <span>Sign Out</span>
+      </button>
+    </mat-menu>
+
     <button mat-icon-button>
       <mat-icon>book</mat-icon>
     </button>
@@ -39,8 +58,8 @@
   @if(false){
   <div class="toolbar-right">
     <div class="menu-items">
-      <button mat-button (click)="navigate('menu')">Home</button>
-      <button mat-button (click)="navigate('search')">My Books</button>
+      <button mat-button (click)="navigate('')">Home</button>
+      <button mat-button (click)="navigate('my-books')">My Books</button>
       <!-- 
       <button class="logout-btn" mat-button (click)="logout()">
         Logout <mat-icon>logout</mat-icon>
