@@ -5,13 +5,15 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginRequest } from '../interfaces/login-request.interface';
 import { LoginResponse } from '../interfaces/login-response.interface';
 
+import { jwtDecode } from 'jwt-decode';
+import { jwtPayload } from '../interfaces/jwt-payload';
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private router = inject(Router);
   private httpClient: HttpClient = inject(HttpClient);
-  // private _isLoggedIn = signal<boolean>(false);
   private tokenKey = 'bookbase-token';
 
   private isLoggedInSubject = new BehaviorSubject<boolean>(
@@ -32,4 +34,31 @@ export class AuthService {
   checkLoggedIn(): boolean {
     return !!window.localStorage.getItem(this.tokenKey);
   }
+
+  getDecodedToken(): jwtPayload | null {
+    const token = localStorage.getItem(this.tokenKey);
+    return token ? this.decodeToken(token) : null;
+  }
+
+  decodeToken(token: string): jwtPayload | null {
+    if (token) {
+      try {
+        return jwtDecode<jwtPayload>(token);
+      } catch (error) {
+        console.error('Error deciding token ', error);
+        return null;
+      }
+    }
+    return null;
+  }
+
+  // getUserId(): number | null {
+  //   const decodedToken = this.getDecodedToken();
+  //   return decodedToken ? decodedToken.id : null;
+  // }
+
+  // getUserEmail(): string | null {
+  //   const decodedToken = this.getDecodedToken();
+  //   return decodedToken ? decodedToken.email : null;
+  // }
 }

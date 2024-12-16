@@ -1,12 +1,13 @@
 <div class="layout">
+  @if(isLoggedIn$ | async){
   <header>
     <app-navbar></app-navbar>
   </header>
+  }
 
   <main>
     <router-outlet></router-outlet>
   </main>
-
   <app-footer></app-footer>
 </div>
 

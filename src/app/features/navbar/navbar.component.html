@@ -34,7 +34,9 @@
 
     <mat-menu #profileMenu="matMenu" class="mat-profile-menu">
       <div class="profile-header">
-        <span class="profile-name">SIMON SANCHEZ</span>
+        <span class="profile-name">{{
+          (user$ | async)?.username || "Guest"
+        }}</span>
       </div>
       <button mat-menu-item (click)="navigate('/user/show')">
         <span>Profile</span>

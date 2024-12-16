@@ -11,10 +11,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Router, RouterLink } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { LoginRequest } from '../../shared/interfaces/login-request.interface';
 import { AuthService } from '../../shared/services/auth.service';
 import { LoadingService } from '../../shared/services/loading.service';
+import { UserService } from '../../shared/services/user.service';
 
 @Component({
   selector: 'app-login-form',
@@ -35,8 +36,11 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   private router = inject(Router);
   private authService = inject(AuthService);
+  private userService = inject(UserService);
   private loadingService = inject(LoadingService);
   private fb = inject(FormBuilder);
+
+  isLoggedIn$: Observable<boolean> = this.authService.isLoggedIn$;
 
   form!: FormGroup;
 
@@ -66,8 +70,9 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (res) => {
             localStorage.setItem('bookbase-token', res.token);
-            console.log(res);
-            this.router.navigate(['/']);
+            this.authService['isLoggedInSubject'].next(true);
+            this.userService.setUserState(res.token);
+            this.router.navigate(['/my-books']);
           },
           error: (err) => {
             this.loadingService.stopLoading();

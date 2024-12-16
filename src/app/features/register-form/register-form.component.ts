@@ -82,6 +82,8 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
               .subscribe({
                 next: (res) => {
                   localStorage.setItem('bookbase-token', res.token);
+                  this.authService['isLoggedInSubject'].next(true);
+                  this.userService.setUserState(res.token);
                   this.router.navigate(['/']);
                 },
               });
