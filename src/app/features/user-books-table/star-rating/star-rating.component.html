@@ -1,0 +1,14 @@
+<div class="star-rating" (mouseleave)="onHover(0)">
+  @for(star of stars; track star){
+  <mat-icon
+    class="star"
+    [ngClass]="{ filled: star <= (hoveredStar || rating) }"
+    (mouseenter)="onHover(star)"
+    (mouseleave)="onHover(star + 0)"
+    (click)="onStarClick(star)"
+  >
+    {{ star <= rating ? "star" : "star-half" }}
+  </mat-icon>
+  }
+  <ng-container></ng-container>
+</div>

@@ -37,13 +37,18 @@ export class AuthService {
 
   getDecodedToken(): jwtPayload | null {
     const token = localStorage.getItem(this.tokenKey);
+
     return token ? this.decodeToken(token) : null;
   }
 
   decodeToken(token: string): jwtPayload | null {
     if (token) {
       try {
-        return jwtDecode<jwtPayload>(token);
+        const res = jwtDecode<jwtPayload>(token);
+        console.log(res);
+
+        // return jwtDecode<jwtPayload>(token);
+        return res;
       } catch (error) {
         console.error('Error deciding token ', error);
         return null;
@@ -52,6 +57,30 @@ export class AuthService {
     return null;
   }
 
+  isTokenExpired(): boolean {
+    const decoded = this.getDecodedToken();
+
+    if (!decoded) {
+      return true;
+    }
+
+    const currentTime = Math.floor(new Date().getTime() / 1000);
+    return decoded.exp < currentTime; //Check if session has expired
+  }
+
+  logout() {
+    //### Logging from Auth Service
+    localStorage.removeItem(this.tokenKey);
+    this.isLoggedInSubject.next(false);
+    console.log('Session expired, User has been logged out.');
+  }
+
+  checkTokenOnStartup() {
+    if (this.isTokenExpired()) {
+      this.logout();
+      this.router.navigate(['/']);
+    }
+  }
   // getUserId(): number | null {
   //   const decodedToken = this.getDecodedToken();
   //   return decodedToken ? decodedToken.id : null;

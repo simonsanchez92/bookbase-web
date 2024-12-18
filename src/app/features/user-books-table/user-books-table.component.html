@@ -1,0 +1,72 @@
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+    <!-- Position Column -->
+    <ng-container matColumnDef="cover_url">
+      <th mat-header-cell *matHeaderCellDef>Cover</th>
+      <td mat-cell *matCellDef="let element">
+        <!-- {{ element.book.coverUrl }} -->
+        <img
+          [src]="element.book.coverUrl"
+          alt="Book cover"
+          class="cover-image"
+          (click)="navigate()"
+        />
+      </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef>title</th>
+      <td mat-cell *matCellDef="let element">{{ element.book.title }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="author">
+      <th mat-header-cell *matHeaderCellDef>author</th>
+      <td mat-cell *matCellDef="let element">{{ element.book.author }}</td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="rating">
+      <th mat-header-cell *matHeaderCellDef>rating</th>
+      <!-- <td mat-cell *matCellDef="let element">{{ element.userBook.rating }}</td> -->
+      <td mat-cell *matCellDef="let element">
+        <app-star-rating
+          [book]="element"
+          [rating]="element.userBook.rating"
+          [readOnly]="false"
+        ></app-star-rating>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="shelves">
+      <th mat-header-cell *matHeaderCellDef>shelves</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.userBook.status["name"] }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="created_at">
+      <th mat-header-cell *matHeaderCellDef>date added</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.userBook.createdAt | date }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  @if(dataSource.data.length < 1 ){
+  <div class="no-content">
+    <span>No Matching items</span>
+  </div>
+  }@else {
+
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Select page of periodic elements"
+  >
+  </mat-paginator>
+  }
+</div>

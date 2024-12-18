@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { SignInRequest } from '../interfaces/signin-request.interface';
 import { SignInResponse } from '../interfaces/signin-response.interface';
-import { User } from '../interfaces/user';
+import { User } from '../interfaces/user.interface';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -40,7 +40,6 @@ export class UserService {
             email: email,
           };
           this.userSubject.next(loggedUser);
-          console.log('User state updated', loggedUser);
         },
         error: (err) => console.log('Error updating user state:', err),
       });

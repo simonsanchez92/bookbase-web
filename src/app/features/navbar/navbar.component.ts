@@ -8,7 +8,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
-import { User } from '../../shared/interfaces/user';
+import { User } from '../../shared/interfaces/user.interface';
 import { AuthService } from '../../shared/services/auth.service';
 import { UserService } from '../../shared/services/user.service';
 

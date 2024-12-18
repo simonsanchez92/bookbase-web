@@ -1,0 +1,21 @@
+table {
+  width: 750px;
+}
+.mat-mdc-row {
+  padding: 32px !important;
+}
+
+tr {
+}
+
+.cover-image {
+  width: 50px;
+  height: auto;
+  //   border-radius: 4px;
+  object-fit: cover;
+  margin: 8px 0;
+}
+
+img.cover-image:hover {
+  cursor: pointer;
+}
