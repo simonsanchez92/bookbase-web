@@ -3,7 +3,11 @@
     <mat-card-content>
       <h1>Bookbase</h1>
       <p>Welcome again</p>
-      <app-login-form></app-login-form>
+      <app-login-form
+        [isLoading]="isLoading"
+        (formSubmit)="handleFormSubmit($event)"
+        (errorState)="handleErrorState($event)"
+      ></app-login-form>
     </mat-card-content>
   </mat-card>
 </div>

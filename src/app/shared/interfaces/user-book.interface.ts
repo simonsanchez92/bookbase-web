@@ -1,5 +1,3 @@
-import { ReadingStatus } from '../enums/reading-status.enum';
-
 export interface UserBook {
   book: {
     id: number;
@@ -12,7 +10,10 @@ export interface UserBook {
   };
 
   userBook: {
-    status: ReadingStatus;
+    status: {
+      id: number;
+      name: string;
+    };
     rating: number;
     createdAt: string;
     updatedAt: string;

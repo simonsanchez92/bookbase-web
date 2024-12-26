@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, EventEmitter, inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { UserBook } from '../../../shared/interfaces/user-book.interface';
 import { BooksService } from '../../../shared/services/books.service';
@@ -11,7 +11,7 @@ import { BooksService } from '../../../shared/services/books.service';
   templateUrl: './star-rating.component.html',
   styleUrl: './star-rating.component.scss',
 })
-export class StarRatingComponent implements OnInit {
+export class StarRatingComponent {
   private booksService = inject(BooksService);
 
   @Input() rating: number = 0; //Initial rating
@@ -22,10 +22,6 @@ export class StarRatingComponent implements OnInit {
   @Input() ratingChange = new EventEmitter<number>();
 
   hoveredStar = 0;
-
-  ngOnInit(): void {
-    console.log(this.book);
-  }
 
   //Emit new rating when a star is clicked
   onStarClick(newRating: number) {

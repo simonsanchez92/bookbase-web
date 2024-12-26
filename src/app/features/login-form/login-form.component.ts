@@ -1,4 +1,11 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -10,12 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { Router, RouterLink } from '@angular/router';
-import { Observable, Subject, takeUntil } from 'rxjs';
-import { LoginRequest } from '../../shared/interfaces/login-request.interface';
-import { AuthService } from '../../shared/services/auth.service';
-import { LoadingService } from '../../shared/services/loading.service';
-import { UserService } from '../../shared/services/user.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -32,17 +34,16 @@ import { UserService } from '../../shared/services/user.service';
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss',
 })
-export class LoginFormComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
-  private router = inject(Router);
-  private authService = inject(AuthService);
-  private userService = inject(UserService);
-  private loadingService = inject(LoadingService);
+export class LoginFormComponent implements OnInit {
   private fb = inject(FormBuilder);
-
-  isLoggedIn$: Observable<boolean> = this.authService.isLoggedIn$;
-
   form!: FormGroup;
+
+  @Input() isLoading = false;
+  @Output() formSubmit = new EventEmitter<{
+    email: string;
+    password: string;
+  }>();
+  @Output() errorState = new EventEmitter<boolean>();
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -51,37 +52,11 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  onSubmit(form: FormGroup) {
-    if (form.valid) {
-      this.loadingService.startLoading();
-      const payload: LoginRequest = {
-        email: form.get('email')?.value,
-        password: form.get('password')?.value,
-      };
-
-      this.authService
-        .login(payload)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (res) => {
-            localStorage.setItem('bookbase-token', res.token);
-            this.authService['isLoggedInSubject'].next(true);
-            this.userService.setUserState(res.token);
-            this.router.navigate(['/my-books']);
-          },
-          error: (err) => {
-            this.loadingService.stopLoading();
-            console.log(err);
-          },
-          complete: () => {
-            this.loadingService.stopLoading();
-          },
-        });
+  onSubmit() {
+    if (this.form.valid) {
+      this.formSubmit.emit(this.form.value);
+    } else {
+      this.errorState.emit(true);
     }
   }
 }

@@ -1,4 +1,4 @@
-export interface RateBookResponse {
+export interface UserBookActionResponse {
   status: {
     id: number;
     name: string;

@@ -45,9 +45,6 @@ export class AuthService {
     if (token) {
       try {
         const res = jwtDecode<jwtPayload>(token);
-        console.log(res);
-
-        // return jwtDecode<jwtPayload>(token);
         return res;
       } catch (error) {
         console.error('Error deciding token ', error);
