@@ -13,14 +13,21 @@
   <span class="spacer"></span>
 
   <!-- Search input -->
-  <mat-form-field class="search-field" appearance="outline">
-    <mat-label>Search books</mat-label>
-    <input matInput />
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup)">
+    <mat-form-field class="search-field" appearance="outline">
+      <mat-label>Search books</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="Search books"
+        formControlName="term"
+      />
 
-    <button mat-icon-button matSuffix>
-      <mat-icon>search</mat-icon>
-    </button>
-  </mat-form-field>
+      <button mat-icon-button matSuffix>
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </form>
 
   <!-- Icons -->
   <div class="toolbar-icons">

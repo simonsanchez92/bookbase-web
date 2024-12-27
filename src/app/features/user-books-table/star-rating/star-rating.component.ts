@@ -1,8 +1,7 @@
 import { NgClass } from '@angular/common';
-import { Component, EventEmitter, inject, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { UserBook } from '../../../shared/interfaces/user-book.interface';
-import { BooksService } from '../../../shared/services/books.service';
 
 @Component({
   selector: 'app-star-rating',
@@ -12,14 +11,12 @@ import { BooksService } from '../../../shared/services/books.service';
   styleUrl: './star-rating.component.scss',
 })
 export class StarRatingComponent {
-  private booksService = inject(BooksService);
-
   @Input() rating: number = 0; //Initial rating
   @Input() maxStars: number = 5; //Total stars to display
   @Input() readOnly: boolean = false; //Toggle between view-only and interactive
 
   @Input() book!: UserBook;
-  @Input() ratingChange = new EventEmitter<number>();
+  @Output() ratingChange = new EventEmitter<number>();
 
   hoveredStar = 0;
 
@@ -27,9 +24,7 @@ export class StarRatingComponent {
   onStarClick(newRating: number) {
     if (!this.readOnly) {
       this.rating = newRating;
-      this.ratingChange.emit(newRating);
-
-      this.booksService.rateBook(this.book.book.id, newRating);
+      this.ratingChange.emit(this.rating);
     }
   }
 

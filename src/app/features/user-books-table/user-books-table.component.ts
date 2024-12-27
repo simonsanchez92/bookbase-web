@@ -1,5 +1,12 @@
 import { DatePipe } from '@angular/common';
-import { AfterViewInit, Component, effect, inject, input } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  effect,
+  EventEmitter,
+  input,
+  Output,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
@@ -7,7 +14,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { UserBook } from '../../shared/interfaces/user-book.interface';
-import { BooksService } from '../../shared/services/books.service';
 import { StarRatingComponent } from './star-rating/star-rating.component';
 
 @Component({
@@ -27,9 +33,9 @@ import { StarRatingComponent } from './star-rating/star-rating.component';
   styleUrl: './user-books-table.component.scss',
 })
 export class UserBooksTableComponent implements AfterViewInit {
-  private booksService = inject(BooksService);
-
   userBooks = input<UserBook[]>([]);
+  // private booksService = inject(BooksService);
+  @Output() rateBook = new EventEmitter<{ bookId: number; rating: number }>();
 
   displayedColumns: string[] = [
     'cover_url',
@@ -66,6 +72,10 @@ export class UserBooksTableComponent implements AfterViewInit {
   }
 
   updateReadingStatus(element: UserBook, newStatusId: number): void {
-    this.booksService.updateReadingStatus(element.book.id, newStatusId);
+    // this.booksService.updateReadingStatus(element.book.id, newStatusId);
+  }
+
+  onRateBook(book: UserBook, newRating: number): void {
+    this.rateBook.emit({ bookId: book.book.id, rating: newRating });
   }
 }

@@ -16,14 +16,15 @@ export class MyBooksComponent implements OnInit, OnDestroy {
   userBooks = signal<UserBook[]>([]);
 
   ngOnInit(): void {
-    // this.booksService.fetchUserBooks();
+    this.booksService.userBook$.subscribe({
+      next: (books) => {
+        this.userBooks.set(books);
+      },
+    });
 
-    // this.booksService.userBook$.subscribe({
-    //   next: (val) => console.log(val),
-    // });
     this.booksService.fetchUserBooks().subscribe({
-      next: (val) => {
-        this.userBooks.set(val.data);
+      next: (res) => {
+        this.booksService.setUserBooks(res.data);
       },
     });
   }
@@ -31,4 +32,37 @@ export class MyBooksComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     console.log('Component destroyed');
   }
+
+  // .subscribe((response) => {
+  //   const updatedBooks = this.userBooksSubject.value.map((book) => {
+  //     if (book.book.id === bookId) {
+  //       return {
+  //         ...book,
+  //         userBook: {
+  //           ...book.userBook,
+  //           rating: response.rating,
+  //           updatedAt: response.updatedAt,
+  //           status: {
+  //             id: ReadingStatus.read,
+  //             name: 'Read',
+  //           },
+  //         },
+  //       };
+  //     }
+  //     return book;
+  //   });
+  //   //Emit updated list
+  //   this.userBooksSubject.next(updatedBooks);
+  // });
+
+  onRateBook(bookId: number, newRating: number): void {
+    this.booksService.rateBook(bookId, newRating);
+    // .subscribe({
+    //   next: (value) => {
+    //     console.log(value);
+    //   },
+    // });
+  }
+
+  onUpdateReadingStatus(bookId: number, statusId: number): void {}
 }

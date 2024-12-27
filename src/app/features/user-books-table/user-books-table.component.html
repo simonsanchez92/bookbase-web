@@ -34,6 +34,7 @@
           [book]="element"
           [rating]="element.userBook.rating"
           [readOnly]="false"
+          (ratingChange)="onRateBook(element, $event)"
         ></app-star-rating>
       </td>
     </ng-container>

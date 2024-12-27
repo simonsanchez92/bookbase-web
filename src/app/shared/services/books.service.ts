@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { ReadingStatus } from '../enums/reading-status.enum';
 import { FetchUserBooks } from '../interfaces/fetch-user-books-response.interface';
 import { UserBookActionResponse } from '../interfaces/rate-book-response.interface';
+import { SearchResult } from '../interfaces/search-result.interface';
 import { UserBook } from '../interfaces/user-book.interface';
 
 @Injectable({
@@ -14,6 +15,13 @@ export class BooksService {
 
   private userBooksSubject = new BehaviorSubject<UserBook[]>([]); //Global state
   userBook$ = this.userBooksSubject.asObservable();
+
+  private searchResultsSubject = new BehaviorSubject<UserBook[]>([]); //Global state
+  searchResults$ = this.searchResultsSubject.asObservable();
+
+  setUserBooks(books: UserBook[]) {
+    this.userBooksSubject.next(books);
+  }
 
   fetchUserBooks(): Observable<FetchUserBooks> {
     const token = this.getAuthToken();
@@ -32,33 +40,38 @@ export class BooksService {
   }
 
   // Update book rating
-  rateBook(bookId: number, newRating: number): void {
-    this.httpClient
+  rateBook(
+    bookId: number,
+    newRating: number
+  ): Observable<UserBookActionResponse> {
+    return this.httpClient
       .put<UserBookActionResponse>(
         `https://localhost:7274/api/userbooks/${bookId}/rate`,
         { rating: newRating }
       )
-      .subscribe((response) => {
-        const updatedBooks = this.userBooksSubject.value.map((book) => {
-          if (book.book.id === bookId) {
-            return {
-              ...book,
-              userBook: {
-                ...book.userBook,
-                rating: response.rating,
-                updatedAt: response.updatedAt,
-                status: {
-                  id: ReadingStatus.read,
-                  name: 'Read',
+      .pipe(
+        tap((response) => {
+          const updatedBooks = this.userBooksSubject.value.map((book) => {
+            if (book.book.id === bookId) {
+              return {
+                ...book,
+                userBook: {
+                  ...book.userBook,
+                  rating: response.rating,
+                  updatedAt: response.updatedAt,
+                  status: {
+                    id: ReadingStatus.read,
+                    name: 'Read',
+                  },
                 },
-              },
-            };
-          }
-          return book;
-        });
-        //Emit updated list
-        this.userBooksSubject.next(updatedBooks);
-      });
+              };
+            }
+            return book;
+          });
+          //Emit updated list
+          this.userBooksSubject.next(updatedBooks);
+        })
+      );
   }
 
   updateReadingStatus(bookId: number, statusId: number): void {
@@ -86,6 +99,16 @@ export class BooksService {
         });
         this.userBooksSubject.next(updatedBooks);
       });
+  }
+
+  setSearchBooks(books: UserBook[]) {
+    this.searchResultsSubject.next(books);
+  }
+
+  SearchBooks(query: string): Observable<SearchResult> {
+    return this.httpClient.get<SearchResult>(
+      `https://localhost:7274/api/books?pageSize=5&page=1&query=${query}`
+    );
   }
   // Add a new book
   // addBook(newBook: UserBook): void {

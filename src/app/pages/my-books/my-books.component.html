@@ -1,1 +1,4 @@
-<app-user-books-table [userBooks]="userBooks()"></app-user-books-table>
+<app-user-books-table
+  [userBooks]="userBooks()"
+  (rateBook)="onRateBook($event.bookId, $event.rating)"
+></app-user-books-table>
