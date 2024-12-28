@@ -56,12 +56,11 @@ export class MyBooksComponent implements OnInit, OnDestroy {
   // });
 
   onRateBook(bookId: number, newRating: number): void {
-    this.booksService.rateBook(bookId, newRating);
-    // .subscribe({
-    //   next: (value) => {
-    //     console.log(value);
-    //   },
-    // });
+    this.booksService.rateBook(bookId, newRating).subscribe({
+      next: (value) => {
+        console.log(value);
+      },
+    });
   }
 
   onUpdateReadingStatus(bookId: number, statusId: number): void {}
