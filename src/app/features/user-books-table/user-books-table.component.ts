@@ -36,6 +36,10 @@ export class UserBooksTableComponent implements AfterViewInit {
   userBooks = input<UserBook[]>([]);
   // private booksService = inject(BooksService);
   @Output() rateBook = new EventEmitter<{ bookId: number; rating: number }>();
+  @Output() changeReadingStatus = new EventEmitter<{
+    bookId: number;
+    status: number;
+  }>();
 
   displayedColumns: string[] = [
     'cover_url',
@@ -71,8 +75,12 @@ export class UserBooksTableComponent implements AfterViewInit {
     console.log('Navigating to specific book page');
   }
 
-  updateReadingStatus(element: UserBook, newStatusId: number): void {
-    // this.booksService.updateReadingStatus(element.book.id, newStatusId);
+  updateReadingStatus(element: UserBook, statusId: number): void {
+    // this.booksService.updateReadingStatus(element.book.id, newStatusId);}
+    this.changeReadingStatus.emit({
+      bookId: element.book.id,
+      status: statusId,
+    });
   }
 
   onRateBook(book: UserBook, newRating: number): void {

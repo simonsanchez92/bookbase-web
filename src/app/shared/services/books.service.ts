@@ -74,31 +74,36 @@ export class BooksService {
       );
   }
 
-  updateReadingStatus(bookId: number, statusId: number): void {
-    this.httpClient
+  updateReadingStatus(
+    bookId: number,
+    statusId: number
+  ): Observable<UserBookActionResponse> {
+    return this.httpClient
       .put<UserBookActionResponse>(
         `https://localhost:7274/api/userbooks/${bookId}/update-status`,
         { status: statusId }
       )
-      .subscribe((response) => {
-        const updatedBooks = this.userBooksSubject.value.map((book) => {
-          if (book.book.id === bookId) {
-            return {
-              ...book,
-              userBook: {
-                ...book.userBook,
-                updatedAt: response.updatedAt,
-                status: {
-                  id: response.status.id,
-                  name: response.status.name,
+      .pipe(
+        tap((response) => {
+          const updatedBooks = this.userBooksSubject.value.map((book) => {
+            if (book.book.id === bookId) {
+              return {
+                ...book,
+                userBook: {
+                  ...book.userBook,
+                  updatedAt: response.updatedAt,
+                  status: {
+                    id: response.status.id,
+                    name: response.status.name,
+                  },
                 },
-              },
-            };
-          }
-          return book;
-        });
-        this.userBooksSubject.next(updatedBooks);
-      });
+              };
+            }
+            return book;
+          });
+          this.userBooksSubject.next(updatedBooks);
+        })
+      );
   }
 
   setSearchBooks(books: UserBook[]) {

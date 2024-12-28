@@ -1,4 +1,5 @@
 <app-user-books-table
   [userBooks]="userBooks()"
   (rateBook)="onRateBook($event.bookId, $event.rating)"
+  (changeReadingStatus)="onChangeReadingStatus($event.bookId, $event.status)"
 ></app-user-books-table>

@@ -33,28 +33,6 @@ export class MyBooksComponent implements OnInit, OnDestroy {
     console.log('Component destroyed');
   }
 
-  // .subscribe((response) => {
-  //   const updatedBooks = this.userBooksSubject.value.map((book) => {
-  //     if (book.book.id === bookId) {
-  //       return {
-  //         ...book,
-  //         userBook: {
-  //           ...book.userBook,
-  //           rating: response.rating,
-  //           updatedAt: response.updatedAt,
-  //           status: {
-  //             id: ReadingStatus.read,
-  //             name: 'Read',
-  //           },
-  //         },
-  //       };
-  //     }
-  //     return book;
-  //   });
-  //   //Emit updated list
-  //   this.userBooksSubject.next(updatedBooks);
-  // });
-
   onRateBook(bookId: number, newRating: number): void {
     this.booksService.rateBook(bookId, newRating).subscribe({
       next: (value) => {
@@ -63,5 +41,11 @@ export class MyBooksComponent implements OnInit, OnDestroy {
     });
   }
 
-  onUpdateReadingStatus(bookId: number, statusId: number): void {}
+  onChangeReadingStatus(bookId: number, statusId: number): void {
+    this.booksService.updateReadingStatus(bookId, statusId).subscribe({
+      next: (value) => {
+        console.log(value);
+      },
+    });
+  }
 }
