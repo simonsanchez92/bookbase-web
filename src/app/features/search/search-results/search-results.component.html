@@ -29,14 +29,16 @@
             @if(book.userBook){
             <span>My rating</span>
             <app-star-rating
-              [book]="book"
               [rating]="book.userBook.rating"
               [readOnly]="false"
               (ratingChange)="onRateBook(book, $event)"
             ></app-star-rating>
             }@else {
-            <span>Rate this book</span>
-            //To do }
+            <app-star-rating
+              [readOnly]="false"
+              (ratingChange)="onRateBook(book, $event)"
+            ></app-star-rating>
+            }
           </div>
         </div>
       </td>

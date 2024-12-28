@@ -1,4 +1,4 @@
-import { Component, input, OnInit } from '@angular/core';
+import { Component, EventEmitter, input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { UserBook } from '../../../shared/interfaces/user-book.interface';
@@ -14,11 +14,13 @@ import { StarRatingComponent } from '../../user-books-table/star-rating/star-rat
 export class SearchResultsComponent implements OnInit {
   searchResults = input.required<UserBook[]>();
 
+  @Output() rateBook = new EventEmitter<{ bookId: number; rating: number }>();
+
   ngOnInit(): void {
     console.log(this.searchResults());
   }
 
   onRateBook(book: UserBook, newRating: number) {
-    console.log({ book, newRating });
+    this.rateBook.emit({ bookId: book.book.id, rating: newRating });
   }
 }

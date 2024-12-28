@@ -41,4 +41,15 @@ export class SearchComponent implements OnInit {
       },
     });
   }
+
+  onRateBook(bookId: number, rating: number) {
+    this.booksService.rateBook(bookId, rating).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
 }

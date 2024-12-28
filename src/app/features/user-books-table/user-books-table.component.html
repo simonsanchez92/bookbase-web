@@ -31,7 +31,6 @@
       <!-- <td mat-cell *matCellDef="let element">{{ element.userBook.rating }}</td> -->
       <td mat-cell *matCellDef="let element">
         <app-star-rating
-          [book]="element"
           [rating]="element.userBook.rating"
           [readOnly]="false"
           (ratingChange)="onRateBook(element, $event)"

@@ -1,7 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { UserBook } from '../../../shared/interfaces/user-book.interface';
 
 @Component({
   selector: 'app-star-rating',
@@ -15,7 +14,7 @@ export class StarRatingComponent {
   @Input() maxStars: number = 5; //Total stars to display
   @Input() readOnly: boolean = false; //Toggle between view-only and interactive
 
-  @Input() book!: UserBook;
+  // @Input() book!: UserBook;
   @Output() ratingChange = new EventEmitter<number>();
 
   hoveredStar = 0;
