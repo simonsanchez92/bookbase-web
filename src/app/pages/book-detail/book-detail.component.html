@@ -1,0 +1,42 @@
+<div class="BookPage__container">
+  <div class="BookPage__left">
+    <div class="BookPage__cover">
+      <img [src]="book?.book?.coverUrl" [alt]="book?.book?.title" />
+    </div>
+    <div class="BookActions"></div>
+  </div>
+  <div class="BookPage__right">
+    <div class="BookTitle">
+      <h1>{{ book?.book?.title }}</h1>
+    </div>
+
+    <div class="Metadata">
+      <div class="Metadata__author">
+        <h3>{{ book?.book?.author }}</h3>
+      </div>
+
+      <!-- <div class="Metadata__rating">
+        [stars component]
+        <div class="RatingStatistics">Average rating</div>
+      </div> -->
+
+      <div class="Metadata__description">
+        <span>
+          {{ book?.book?.description }}
+        </span>
+      </div>
+      <div class="Metadata__genres">
+        <span class="LabelTitle">Genres </span>
+        <div class="LabelItems">
+          @for(genre of book?.book?.genres; track genre.id){
+          <span class="Item">{{ genre.name }}</span>
+          }
+        </div>
+      </div>
+
+      <div class="Metadata__published">
+        <span>Published in {{ book?.book?.publishYear }}</span>
+      </div>
+    </div>
+  </div>
+</div>

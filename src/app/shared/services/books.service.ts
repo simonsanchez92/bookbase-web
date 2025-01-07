@@ -35,6 +35,12 @@ export class BooksService {
     );
   }
 
+  getOne(id: number): Observable<UserBook> {
+    return this.httpClient.get<UserBook>(
+      `https://localhost:7274/api/books/show/${id}`
+    );
+  }
+
   private getAuthToken(): string | null {
     return localStorage.getItem('bookbase-token');
   }

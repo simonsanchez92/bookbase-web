@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './auth.guard';
+import { BookDetailComponent } from './pages/book-detail/book-detail.component';
 import { ForgottenPasswordComponent } from './pages/forgotten-password/forgotten-password.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -12,6 +13,11 @@ import { UnauthGuard } from './unauth.guard';
 export const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'my-books', component: MyBooksComponent, canActivate: [AuthGuard] },
+  {
+    path: 'book/show/:id',
+    component: BookDetailComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'user/show', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [UnauthGuard] },

@@ -4,6 +4,7 @@ import {
   Component,
   effect,
   EventEmitter,
+  inject,
   input,
   Output,
 } from '@angular/core';
@@ -13,6 +14,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { Router, RouterLink } from '@angular/router';
 import { UserBook } from '../../shared/interfaces/user-book.interface';
 import { StarRatingComponent } from './star-rating/star-rating.component';
 
@@ -28,11 +30,13 @@ import { StarRatingComponent } from './star-rating/star-rating.component';
     MatMenuModule,
     MatRadioModule,
     DatePipe,
+    RouterLink,
   ],
   templateUrl: './user-books-table.component.html',
   styleUrl: './user-books-table.component.scss',
 })
 export class UserBooksTableComponent implements AfterViewInit {
+  private router = inject(Router);
   userBooks = input<UserBook[]>([]);
   // private booksService = inject(BooksService);
   @Output() rateBook = new EventEmitter<{ bookId: number; rating: number }>();
@@ -71,8 +75,8 @@ export class UserBooksTableComponent implements AfterViewInit {
     console.log(this.userBooks());
   }
 
-  navigate() {
-    console.log('Navigating to specific book page');
+  navigate(id: number) {
+    this.router.navigate(['book/show/', id]);
   }
 
   updateReadingStatus(element: UserBook, statusId: number): void {

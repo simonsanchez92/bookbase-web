@@ -5,11 +5,19 @@
     <tr>
       <td>
         <div class="Cover-Container">
-          <img [src]="book.book.coverUrl" alt="placeholder" width="100px" />
+          <img
+            [src]="book.book.coverUrl"
+            alt="placeholder"
+            width="100px"
+            (click)="onNavigate(book.book.id)"
+          />
         </div>
 
         <div class="Book-Info-Container">
-          <a class="BookTitle">{{ book.book.title }}</a>
+          <a class="BookTitle" [routerLink]="['/book/show', book.book.id]">{{
+            book.book.title
+          }}</a>
+
           <span>by {{ book.book.author }}</span>
 
           <span class="Publish-Year"
