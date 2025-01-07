@@ -1,6 +1,9 @@
 <div class="Container">
   <h2>Search</h2>
   <app-search-results
+    [isLoading]="isLoading"
+    [page]="page"
+    [total]="total"
     [searchResults]="books()"
     (rateBook)="onRateBook($event.bookId, $event.rating)"
   ></app-search-results>

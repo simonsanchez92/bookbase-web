@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SearchResultsComponent } from '../../features/search/search-results/search-results.component';
 import { UserBook } from '../../shared/interfaces/user-book.interface';
 import { BooksService } from '../../shared/services/books.service';
+import { LoadingService } from '../../shared/services/loading.service';
 
 @Component({
   selector: 'app-search',
@@ -14,11 +15,20 @@ import { BooksService } from '../../shared/services/books.service';
 export class SearchComponent implements OnInit {
   private booksService = inject(BooksService);
   private activatedRoute = inject(ActivatedRoute);
+  private loadingService = inject(LoadingService);
   query = signal<string>('');
 
   books = signal<UserBook[]>([]);
 
+  page: number = 0;
+  total: number = 0;
+
+  isLoading: boolean = false;
+
   ngOnInit(): void {
+    this.isLoading = true;
+    this.loadingService.startLoading();
+
     this.activatedRoute.queryParamMap.subscribe({
       next: (paramMap) => {
         paramMap.get('query')
@@ -35,9 +45,11 @@ export class SearchComponent implements OnInit {
 
     this.booksService.SearchBooks(this.query()).subscribe({
       next: (res) => {
-        console.log('this is the res', res);
         this.booksService.setSearchBooks(res.data);
-        console.log(this.books());
+        this.page = res.page;
+        this.total = res.total;
+        this.loadingService.stopLoading();
+        this.isLoading = false;
       },
     });
   }

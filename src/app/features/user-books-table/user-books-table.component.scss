@@ -1,5 +1,11 @@
+.Table-Container {
+  display: flex;
+  justify-content: center;
+}
+
 table {
   width: 750px;
+  min-width: 100%;
 }
 .mat-mdc-row {
   padding: 32px !important;

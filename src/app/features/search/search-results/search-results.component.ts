@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   inject,
+  Input,
   input,
   OnInit,
   Output,
@@ -24,6 +25,10 @@ export class SearchResultsComponent implements OnInit {
   searchResults = input.required<UserBook[]>();
 
   @Output() rateBook = new EventEmitter<{ bookId: number; rating: number }>();
+
+  @Input() page: number = 0;
+  @Input() total: number = 0;
+  @Input() isLoading: boolean = false;
 
   ngOnInit(): void {
     console.log(this.searchResults());
