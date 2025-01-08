@@ -1,0 +1,86 @@
+.Review {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+  .Review__left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .Avatar {
+      height: 60px;
+      width: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 1rem;
+
+      img {
+        height: 100%;
+      }
+    }
+
+    .Username {
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+
+  .Review__right {
+    padding: 0 1rem;
+    border-bottom: 2px solid #cfccc9;
+
+    .Review__right__Top {
+      display: flex;
+      justify-content: space-between;
+      margin: 1.8rem 0;
+    }
+
+    .Review__right__Bottom {
+      p {
+        line-height: 1.4rem;
+      }
+
+      .CommentSection {
+        margin: 1rem 0;
+
+        .CommentSection__statsContainer {
+          margin: 2rem 0;
+
+          span {
+            color: #707070;
+            font-weight: 500;
+            &:hover {
+              cursor: pointer;
+              border-bottom: 2px solid #707070;
+            }
+          }
+          .CommentNumber::before {
+            margin: 0 0.8rem;
+            font-weight: bold;
+            content: ".";
+          }
+        }
+
+        .CommentSection__actions {
+          display: flex;
+          gap: 1rem;
+          padding: 1rem 0;
+          button {
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: none;
+
+            &:hover span {
+              border-bottom: 2px solid black;
+            }
+          }
+        }
+      }
+    }
+  }
+}

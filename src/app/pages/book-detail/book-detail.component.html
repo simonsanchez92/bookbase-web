@@ -57,14 +57,22 @@
 
         <div class="WriteReview">
           <div class="StarsContainer">
-            <h3>Stars element</h3>
+            <app-star-rating></app-star-rating>
             <span>Rate this book</span>
           </div>
           <div class="WriteReview__btnContainer">
-            <button>Write a review</button>
+            <button mat-flat-button style="background-color: black">
+              Write a Review
+            </button>
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="CommunityReviews">
+      <h3>Community Reviews</h3>
+      <app-review></app-review>
+      <app-review></app-review>
     </div>
   </div>
 </div>
